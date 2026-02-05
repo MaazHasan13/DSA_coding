@@ -1,51 +1,37 @@
 #include<iostream>
 #include<vector>
-#include<climits>
 #include<algorithm>
 using namespace std;
 
-int trapping_water(int arr[],int n){
-    //extra array..
+int trapping_water(int arr[], int n) {
 
-    vector <int>v(n);
-    int left = arr[0];
-    int ans = 0;
-    int max_ele = INT_MIN;
-    int right = 0;
-    for(int i=0;i<n;i++){
-        int curr = arr[i];
-        for(int j=i+1;j<n;j++){
-            if(arr[j]<arr[j+1]){
-                max_ele = arr[j+1];
-                 right = max_ele;
+    if(n <= 2) return 0;
 
-                 if(curr == max_ele){
-                    right = arr[i+1];
-                 }
-            
-        
+    int left_max[n], right_max[n];
 
-            if(left == curr){
-                ans = 0;
-                v.push_back(ans);
+    left_max[0] = 0;
+    for(int i = 1; i < n; i++) {
+        left_max[i] = max(left_max[i-1], arr[i-1]);
+    }
 
-            }
-         else if(left>curr<right){
-                 ans = left - curr;
-                 v.push_back(ans);
-            }
+    right_max[n-1] = 0;
+    for(int i = n-2; i >= 0; i--) {
+        right_max[i] = max(right_max[i+1], arr[i+1]);
+    }
 
-            }
+    int water = 0;
+    for(int i = 0; i < n; i++) {
+        int min_height = min(left_max[i], right_max[i]);
+        if(min_height > arr[i]) {
+            water += (min_height - arr[i]);
         }
     }
-    int sum = 0;
-    for(int i=0;i<n;i++){
-        sum+=v[i];
-    }
-    return sum;
+
+    return water;
 }
 
-
-int main(){
-
+int main() {
+    int arr[8] = {4,2,0,5,2,6,2,3};
+    int n = 8;
+    cout << trapping_water(arr, n);
 }
