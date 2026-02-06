@@ -4,7 +4,7 @@
 #include<algorithm>
 using namespace std;
 
-int sum_3(int arr[],int n,int target){
+bool sum_3(int arr[],int n,int target){
     sort(arr,arr+n);
 
     for(int i=0;i<n-2;i++){
@@ -13,7 +13,7 @@ int sum_3(int arr[],int n,int target){
         while(start<end){
             int ans = arr[i] + arr[start] + arr[end];
             if(ans==target){
-                return 1;
+                return true;
 
             }
             else if(ans>target)
@@ -22,7 +22,7 @@ int sum_3(int arr[],int n,int target){
             start++;
         }
     }
-    return 0 ;
+    return false ;
 
     }
 int main(){
